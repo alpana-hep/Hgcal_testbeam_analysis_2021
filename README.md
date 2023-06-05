@@ -1,14 +1,14 @@
 # code for TB alignment corrections Hgcal_testbeam_analysis
 
-HGCAL_analysis_code
-Latest pion analysis code for OctTB2018
+##HGCAL_analysis_code
+##Latest pion analysis code for OctTB2018
 
 
 git clone -b chi2_optimization git@github.com:alpana-hep/Hgcal_testbeam_analysis_2021.git .
-How to run the script
+
+##How to run the script
 
 make
-
 ./analyzeHGCOctTB <file_list> outFileName.root <dataset> <configuration> <chi2-method> min_ max_ 
 
 <file_list.txt> : contains files to be analyzed (can be found in file_list folder)
@@ -21,8 +21,7 @@ make
 
 alwyas use chi2 method -case-1
 
-<min_> & <max_> : put these to random numbers (not being used right now)
-
+<min_> & <max_> : put these to random numbers (not being used right now - In general these two can be used to set the limit on total number of events for which you need to run your event loop.)
 Example:
 `./analyzeHGCOctTB file_list/v16_v8/pion100_config1.txt outFileName.root data alpha 1 0 1
 How to run the script for sim:
