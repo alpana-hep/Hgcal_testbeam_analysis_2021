@@ -441,8 +441,8 @@ void AnalyzeHGCOctTB::Chi2_Weight_Map_Init(int chi2_method) {
   case 3 : sprintf(method,"%d : detector scale with offset (0.4 GeV) for H hadrons AND events around the core of beam energy as input to chi2",chi2_method);  break;
   default : cout<<"Incorrect method input use between 0-3"<<endl; exit(0);
 }
-  sprintf(f_name_EH,"./txt_maps/chi2_flatEn/sim/chi2_calibFact_EH_hadrons_flatEn_%d_scalMC_2sigma.txt",chi2_method);
-  sprintf(f_name_H,"./txt_maps/chi2_flatEn/sim/chi2_calibFact_EH_hadrons_flatEn_%d_scalMC_2sigma.txt",chi2_method);
+  sprintf(f_name_EH,"./txt_maps/updated_2022Maps/chi2_calibFact_EH_hadrons_flatEn_%d_trimAhcal_v1.txt",chi2_method);
+  sprintf(f_name_H,"./txt_maps/chi2_flatEn/sim/chi2_calibFact_H_hadrons_flatEn_%d_trimAhcal_v1.txt",chi2_method);
 
 
 
