@@ -194,19 +194,19 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
   //   }
 
   //fit function
-  TF1* f_EH_trimAhcal_w1 = new TF1("f_EH_trimAhcal_w1","sqrt([0]*[0]+[1]*[1]/x)+[2]/x+[3]", 5, 355);
+  TF1* f_EH_trimAhcal_w1 = new TF1("f_EH_trimAhcal_w1","sqrt([0]*[0]+[1]/x)+[2]/x+[3]", 5, 355);
   f_EH_trimAhcal_w1->FixParameter(0,1.18309e-05);
   f_EH_trimAhcal_w1->FixParameter(1,2.52436);
   f_EH_trimAhcal_w1->FixParameter(2,2.17906);
   f_EH_trimAhcal_w1->FixParameter(3,1.12529);
    
-  TF1* f_EH_trimAhcal_w2 = new TF1("f_EH_trimAhcal_w2","sqrt([0]*[0]+[1]*[1]/x)+exp(-[2]*x+[3])", 5, 355);
+  TF1* f_EH_trimAhcal_w2 = new TF1("f_EH_trimAhcal_w2","sqrt([0]*[0]+[1]/x)+[2]/x+[3]", 5, 355);
   f_EH_trimAhcal_w2->FixParameter(0,5.92884e-07);
   f_EH_trimAhcal_w2->FixParameter(1,8.1495);
   f_EH_trimAhcal_w2->FixParameter(2,-4.43331);
   f_EH_trimAhcal_w2->FixParameter(3,0.824484);
   
-  TF1* f_EH_trimAhcal_w3= new TF1("f_EH_trimAhcal_w3","sqrt([0]*[0]+[1]*[1]/x)+[2]/x+[3]", 5, 355);
+  TF1* f_EH_trimAhcal_w3= new TF1("f_EH_trimAhcal_w3","sqrt([0]*[0]+[1]/x)+[2]", 5, 355);
   f_EH_trimAhcal_w3->FixParameter(0,5.93739e-06);
   f_EH_trimAhcal_w3->FixParameter(1,0.874693);
   f_EH_trimAhcal_w3->FixParameter(2,1.05584);
