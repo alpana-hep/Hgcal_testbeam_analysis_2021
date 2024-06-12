@@ -118,9 +118,9 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
   float alpha_ = FH_AH_relative_scale;
   float EE_scale = 94.624;     // MIPs per Ge
   float FH_AH_scale = 12.788;  // MIPs per GeV
-  float ee_rescaling = 1.035;
-  float fh_rescaling = 1.095;
-  float ah_rescaling = 1.095;
+  float ee_rescaling = 1;//1.035;
+  float fh_rescaling = 1;//1.095;
+  float ah_rescaling = 1;//1.095;
   if (!strcmp(data, "data")) {
     ee_rescaling = 1;
     fh_rescaling = 1;
@@ -130,8 +130,8 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
        << "\t" << ee_rescaling << "\t" << fh_rescaling << "\t" << ah_rescaling
        << endl;
 
-  int Elist[85] = {
-      10,  14,  18,  22,  26,  30,  34,  38,  42,  46,  50,  54,  58,  62,  66,
+  int Elist[8] = {20,50,80,100,120,200,250,300};// /
+  int Elist1[85]={ 10,  14,  18,  22,  26,  30,  34,  38,  42,  46,  50,  54,  58,  62,  66,
       70,  74,  78,  82,  86,  90,  94,  98,  102, 106, 110, 114, 118, 122, 126,
       130, 134, 138, 142, 146, 150, 154, 158, 162, 166, 170, 174, 178, 182, 186,
       190, 194, 198, 202, 206, 210, 214, 218, 222, 226, 230, 234, 238, 242, 246,
@@ -184,7 +184,7 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
 
   // Create the branches in the output ntuple.
   Float_t beam_Energy;
-  Float_t trueBeamEnergy;
+  Float_t trueBeamEnergyy;
   Int_t Event;
   Int_t SSlocation;
   vector<float> *pi_rechitEn_trimAhcal;
@@ -192,32 +192,34 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
   vector<float> *pi_comb_rechit_y_trimAhcal;
   vector<float> *pi_comb_rechit_z_trimAhcal;
 
-  // clusters_tree.Branch("rechits_x", &pcloud.x);
-  // clusters_tree.Branch("rechits_y", &pcloud.y);
-  // clusters_tree.Branch("rechits_z", &pcloud.z);
-  // clusters_tree.Branch("rechits_energy", &pcloud.weight);
-  // clusters_tree.Branch("rechits_layer", &pcloud.layer);
-  // clusters_tree.Branch("rechits_rho", &pcloud.rho);
-  // clusters_tree.Branch("rechits_delta", &pcloud.delta);
-  // clusters_tree.Branch("rechits_clusterIndex", &pcloud.clusterIndex);
-  // clusters_tree.Branch("all_rechits_energy", &Esum_allRecHits_inGeV, "all_rechits_energy/F");
-  // clusters_tree.Branch("clusters_x", &clusters_soa.x);
-  // clusters_tree.Branch("clusters_y", &clusters_soa.y);
-  // clusters_tree.Branch("clusters_z", &clusters_soa.z);
-  // clusters_tree.Branch("clusters_energy", &clusters_soa.energy);
-  // clusters_tree.Branch("clusters_layer", &clusters_soa.layer);
-  // clusters_tree.Branch("clusters_size", &clusters_soa.size);
-  clusters_tree.Branch("trueBeamEnergy",&trueBeamEnergy);
+  clusters_tree.Branch("rechits_x", &pcloud.x);
+  clusters_tree.Branch("rechits_y", &pcloud.y);
+  clusters_tree.Branch("rechits_z", &pcloud.z);
+  clusters_tree.Branch("rechits_energy", &pcloud.weight);
+  clusters_tree.Branch("rechits_layer", &pcloud.layer);
+  clusters_tree.Branch("rechits_rho", &pcloud.rho);
+  clusters_tree.Branch("rechits_delta", &pcloud.delta);
+  clusters_tree.Branch("rechits_clusterIndex", &pcloud.clusterIndex);
+  clusters_tree.Branch("all_rechits_energy", &Esum_allRecHits_inGeV, "all_rechits_energy/F");
+  clusters_tree.Branch("clusters_x", &clusters_soa.x);
+  clusters_tree.Branch("clusters_y", &clusters_soa.y);
+  clusters_tree.Branch("clusters_z", &clusters_soa.z);
+  clusters_tree.Branch("clusters_energy", &clusters_soa.energy);
+  clusters_tree.Branch("clusters_layer", &clusters_soa.layer);
+  clusters_tree.Branch("clusters_size", &clusters_soa.size);
+  clusters_tree.Branch("trueBeamEnergy",&trueBeamEnergyy);
   clusters_tree.Branch("beamEnergy",&beam_Energy);
   // clusters_tree.Branch("rechit_shower_start_layer",&SSlocation);
   clusters_tree.Branch("event",&Event);
-  // clusters_tree.Branch("rechitEn_trimAhcal",&pi_rechitEn_trimAhcal);
-  // clusters_tree.Branch("comb_rechit_x_trimAhcal",&pi_comb_rechit_x_trimAhcal);
-  // clusters_tree.Branch("comb_rechit_y_trimAhcal",&pi_comb_rechit_y_trimAhcal);
-  // clusters_tree.Branch("comb_rechit_z_trimAhcal",&pi_comb_rechit_z_trimAhcal);
+  clusters_tree.Branch("rechitEn_trimAhcal",&pi_rechitEn_trimAhcal);
+  clusters_tree.Branch("comb_rechit_x_trimAhcal",&pi_comb_rechit_x_trimAhcal);
+  clusters_tree.Branch("comb_rechit_y_trimAhcal",&pi_comb_rechit_y_trimAhcal);
+  clusters_tree.Branch("comb_rechit_z_trimAhcal",&pi_comb_rechit_z_trimAhcal);
   if(DEBUG)  
-    nentries = 1;    
+    nentries = 10000;    
   // event, rechit trim Ahcal information, SS layer,
+  //  int nrechit[85]={}, nrechit_EE[85]={},nrechit_FH[85]={},nrechit_AH[85]={};
+  //  nentries=500000;
   for (jentry = 0; jentry < nentries; jentry++, hgc_jentry++) {
 
     // Reset PointsCloud
@@ -244,6 +246,7 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
     // apparently code is not running beyond this point ///
     event_count[0]++;
     Event=0;
+    //    cout<<trueBeamEnergy<<endl;
     event_count[1]++;
     h_true_beamenergy[4]->Fill(trueBeamEnergy);
     // if (strcmp(data, "data"))
@@ -256,46 +259,95 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
     Esum_rechits_AH = 0;
     Esum_rechits_FH_inGeV = 0;
     Esum_rechits_EE_inGeV = 0;
-    trueBeamEnergy=0;
+    //    trueBeamEnergy=0;
     Esum_rechits_AH_inGeV = 0;
     
     ////////////////////////////////////////////
     //            HGCAL Part                  //
     ////////////////////////////////////////////
-    trueBeamEnergy = trueBeamEnergy;
+    trueBeamEnergyy = trueBeamEnergy;
     beam_Energy = beamEnergy;
     Event = event;
-    // SSlocation = rechit_shower_start_layer;
-    // pi_rechitEn_trimAhcal = rechitEn_trimAhcal;
-    // pi_comb_rechit_x_trimAhcal=comb_rechit_x_trimAhcal;
-    // pi_comb_rechit_y_trimAhcal=comb_rechit_y_trimAhcal;
-    // pi_comb_rechit_z_trimAhcal=comb_rechit_z_trimAhcal;
+    SSlocation = rechit_shower_start_layer;
+    pi_rechitEn_trimAhcal = rechitEn_trimAhcal;
+    pi_comb_rechit_x_trimAhcal=comb_rechit_x_trimAhcal;
+    pi_comb_rechit_y_trimAhcal=comb_rechit_y_trimAhcal;
+    pi_comb_rechit_z_trimAhcal=comb_rechit_z_trimAhcal;
     
     total_rechits = 0;
     rechits_EE = 0;
     rechits_FH = 0;
     rechits_AH = 0;
     int nrechit_trimAhcal = 0;
+    int nrechit[85]={}, nrechit_EE[85]={},nrechit_FH[85]={},nrechit_AH[85]={};
+    //cout<<trueBeamEnergy<<"\t"<<jentry<<endl;
     /// Read HGCAL + AHCAL (only 10 layers out of 39) combined Tree
     if (DEBUG) cout << "DEBUG: Start Analylizing HGCAL  RecHits!!" << endl;
     float rechitEnergySum_AH = 0.0;
+    for(int ien=0;ien<8;ien++){
+        if(trueBeamEnergy>=Elist[ien]-2 && trueBeamEnergy<=Elist[ien]+2)
+          {
+
     for (int i = 0; i < rechitEn_trimAhcal->size(); i++) {
       float energy = rechitEn_trimAhcal->at(i);
-      if (comb_rechit_z_trimAhcal->at(i) < 54)  // selecting EE rechits
-      {
-        Esum_rechits_EE += (energy / ee_rescaling);
-        rechits_EE++;
-      } else if ((comb_rechit_z_trimAhcal->at(i) > 54) &&
-                 (comb_rechit_z_trimAhcal->at(i) <
-                  154))  // Selecting FH rechits
-      {
-        Esum_rechits_FH += (energy / fh_rescaling);
-      } else if (comb_rechit_z_trimAhcal->at(i) > 154)  // selecting AH rechits
-      {
-        rechitEnergySum_AH += (energy / ah_rescaling);
-      }
-    }  // Nrechits loop
+      //      nrechit++;
+	    nrechit[ien]++;
+	    //	    h_rechitEn[ien]->Fill(energy / ee_rescaling);
+	    h_rechitEn_Mips[ien]->Fill(energy);
+	    h_rechit_En_MipsVsZ[ien]->Fill(comb_rechit_z_trimAhcal->at(i),energy);
+	    //h_rechit_EnVsZ[ien]->Fill(comb_rechit_z_trimAhcal->at(i),energy/ ee_rescaling);
 
+	    if (comb_rechit_z_trimAhcal->at(i) < 54)  // selecting EE rechits
+	      {
+		h_rechit_MipsEnVsFlag[ien]->Fill(0.0,energy/ee_rescaling);
+		h_rechitEn_EE_Mips[ien]->Fill(energy/ee_rescaling);
+		energy*=0.0105;		
+		h_rechitEn[ien]->Fill(energy/ee_rescaling);
+		h_rechit_EnVsZ[ien]->Fill(comb_rechit_z_trimAhcal->at(i),energy/ee_rescaling);
+		h_rechitEn_EE[ien]->Fill(energy/ee_rescaling);
+		Esum_rechits_EE += (energy/ee_rescaling);
+		rechits_EE++;
+		nrechit_EE[ien]++;
+
+	      } else if ((comb_rechit_z_trimAhcal->at(i) > 54) &&
+			 (comb_rechit_z_trimAhcal->at(i) <
+			  154))  // Selecting FH rechits
+	
+	      {
+		h_rechit_MipsEnVsFlag[ien]->Fill(1,energy/fh_rescaling);
+                h_rechitEn_FH_Mips[ien]->Fill(energy/fh_rescaling);
+
+		energy*=0.0812;
+		h_rechitEn[ien]->Fill(energy/fh_rescaling);
+                h_rechit_EnVsZ[ien]->Fill(comb_rechit_z_trimAhcal->at(i),energy/fh_rescaling);
+
+		nrechit_FH[ien]++;
+		h_rechitEn_FH[ien]->Fill(energy/fh_rescaling);
+		Esum_rechits_FH += (energy/fh_rescaling);
+		//h_rechitEn_FH_Mips[ien]->Fill(energy);
+	      } else if (comb_rechit_z_trimAhcal->at(i) > 154)  // selecting AH rechits
+	      {
+		h_rechit_MipsEnVsFlag[ien]->Fill(2,energy/ah_rescaling);
+                h_rechitEn_AH_Mips[ien]->Fill(energy/ah_rescaling);
+
+		energy*=0.12508 ;
+		h_rechitEn[ien]->Fill(energy/ah_rescaling);
+                h_rechit_EnVsZ[ien]->Fill(comb_rechit_z_trimAhcal->at(i),energy/ah_rescaling);
+
+		nrechit_AH[ien]++;
+		h_rechitEn_AH[ien]->Fill(energy/ah_rescaling);
+		h_rechitEn_AH_Mips[ien]->Fill(energy );
+		rechitEnergySum_AH += (energy/ah_rescaling);
+	      }
+    }
+    h_nrechits[ien]->Fill(nrechit[ien]);
+    h_nrechits_EE[ien]->Fill(nrechit_EE[ien]);
+    h_nrechits_FH[ien]->Fill(nrechit_FH[ien]);
+    h_nrechits_AH[ien]->Fill(nrechit_AH[ien]);
+
+	  }
+    }  // Nrechits loop
+    
     float trueBeamEnergyy = trueBeamEnergy;
     if (!strcmp(data, "data"))
       trueBeamEnergy = beam_Energy;
@@ -336,21 +388,21 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
     
     // Fill in the clusters_SoA
     clusters_soa.load(clusters);
-    //    clusters_tree.Fill();
-    if (DEBUG) {
-      dumpSoA(pcloud);
-    }
+    clusters_tree.Fill();
+    // if (DEBUG) {
+    //   dumpSoA(pcloud);
+    // }
 
     float total_energy_clustered = 0.f;
     for (auto const & cl : clusters) {
       auto pos = cl.position();
-      if (DEBUG) {
-        std::cout << std::get<0>(pos) << " "
-          << std::get<1>(pos) << " "
-          << std::get<2>(pos) << " "
-          << cl.energy() << " "
-          << std::endl;
-      }
+      // if (DEBUG) {
+      //   std::cout << std::get<0>(pos) << " "
+      //     << std::get<1>(pos) << " "
+      //     << std::get<2>(pos) << " "
+      //     << cl.energy() << " "
+      //     << std::endl;
+      // }
       total_energy_clustered += cl.energy();
     }
     int Cluster_Count[51]={};
@@ -360,44 +412,50 @@ void AnalyzeHGCOctTB::EventLoop(const char *data, const char *energy) {
       {
 	//if()
 	//cout<<jentr<<"\t"<<"inside energy loop"<<trueBeamEnergy<<"\t"<<data<<endl;
-	if(trueBeamEnergy>=Elist[ien] && trueBeamEnergy<Elist[ien]+4)
+      	if(trueBeamEnergy>=Elist1[ien] && trueBeamEnergy<Elist1[ien]+4)
           {
             h_totalEnClustered[ien]->Fill(total_energy_clustered);
-	    h_totalClustEn_vsTotalFixEn[ien]->Fill(Esum_allRecHits_inGeV,total_energy_clustered);
-	    h_NClusters[ien]->Fill(total_clusters);
-	    //cout<<jentry<<"\t"<<"inside energy loop"<<trueBeamEnergy<<endl;
-
-	    for (auto const & cl : clusters) {
-	      auto pos = cl.position();
-	      h_Clusters_X[ien][cl.layer()]->Fill(std::get<0>(pos));
-	      h_Clusters_Y[ien][cl.layer()]->Fill(std::get<1>(pos));
-	      h_Clusters_Z[ien][cl.layer()]->Fill(std::get<2>(pos));
-	      h_Clusters_En[ien][cl.layer()]->Fill(cl.energy());
-	      h_Clusters_EnvsZ[ien][cl.layer()]->Fill(std::get<2>(pos),cl.energy());
-	      h_Clusters_XvsY[ien][cl.layer()]->Fill(std::get<0>(pos),std::get<1>(pos));	      
-	      h_Nrechits_perClusters[ien][cl.layer()]->Fill(cl.hits().size());
-	      Cluster_Count[cl.layer()]++;
-	      total_RechitsLay[cl.layer()]+=cl.hits().size();
-	      total_Rechits+=cl.hits().size();
-	    }
-
-	    for (unsigned int j=1;j<51;j++)
-	      {
-		h_NClusters_perLayer[ien][j-1]->Fill(Cluster_Count[j]);
-		h_NRechitsVsNClusters_perLayer[ien][j-1]->Fill(total_RechitsLay[j],Cluster_Count[j]);
-	      }
-	    for (unsigned int i = 0; i < pcloud.n; i++) {
-	      h_rechits_rho[ien][pcloud.layer[i]]->Fill(pcloud.rho[i]);
-	      h_rechits_delta[ien][pcloud.layer[i]]->Fill(pcloud.delta[i]);	      
-	    }
-	    h_Nrechits_beforeVsAfter[ien]->Fill(pcloud.n,total_Rechits);
-	    h_NRechits[ien]->Fill(pcloud.n);
-	    h_NRechitsVsNClusters[ien]->Fill(pcloud.n,total_clusters);
+      	    h_totalClustEn_vsTotalFixEn[ien]->Fill(Esum_allRecHits_inGeV,total_energy_clustered);
+      	    h_NClusters[ien]->Fill(total_clusters);
+      	    //cout<<jentry<<"\t"<<"inside energy loop"<<trueBeamEnergy<<endl;
+	    
+      	    for (auto const & cl : clusters) {
+      	      auto pos = cl.position();
+      	      h_Clusters_X[ien][cl.layer()]->Fill(std::get<0>(pos));
+      	      h_Clusters_Y[ien][cl.layer()]->Fill(std::get<1>(pos));
+      	      h_Clusters_Z[ien][cl.layer()]->Fill(std::get<2>(pos));
+      	      h_Clusters_En[ien][cl.layer()]->Fill(cl.energy());
+      	      h_Clusters_EnvsZ[ien][cl.layer()]->Fill(std::get<2>(pos),cl.energy());
+      	      h_Clusters_XvsY[ien][cl.layer()]->Fill(std::get<0>(pos),std::get<1>(pos));	      
+      	      h_Nrechits_perClusters[ien][cl.layer()]->Fill(cl.hits().size());
+      	      Cluster_Count[cl.layer()]++;
+      	      total_RechitsLay[cl.layer()]+=cl.hits().size();
+      	      total_Rechits+=cl.hits().size();
+      	    }
+	  
+      	    for (unsigned int j=1;j<51;j++)
+      	      {
+      		h_NClusters_perLayer[ien][j-1]->Fill(Cluster_Count[j]);
+      		h_NRechitsVsNClusters_perLayer[ien][j-1]->Fill(total_RechitsLay[j],Cluster_Count[j]);
+      	      }
+      	    for (unsigned int i = 0; i < pcloud.n; i++) {
+      	      h_rechits_rho[ien][pcloud.layer[i]]->Fill(pcloud.rho[i]);
+      	      h_rechits_delta[ien][pcloud.layer[i]]->Fill(pcloud.delta[i]);
+      	      if(pcloud.clusterIndex[i]==-1)
+      		{
+      		  h_rejecRechits_En[ien]->Fill(pcloud.weight[i]);
+      		  h_rejecRechits_XvsZ[ien]->Fill(pcloud.z[i],pcloud.x[i]);
+      		  h_rejecRechits_XvsY[ien]->Fill(pcloud.x[i],pcloud.y[i]);
+      		}
+      	    }
+      	    h_Nrechits_beforeVsAfter[ien]->Fill(pcloud.n,total_Rechits);
+      	    h_NRechits[ien]->Fill(pcloud.n);
+      	    h_NRechitsVsNClusters[ien]->Fill(pcloud.n,total_clusters);
 	    
 	    
           }
       }
-
+      
     if (DEBUG) {
       std::cout << "Event count " << event_count[0]
                 << " True energy: " << trueBeamEnergy

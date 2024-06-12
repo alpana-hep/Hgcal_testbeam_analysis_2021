@@ -1,0 +1,24 @@
+executable=/home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/run_myprog.sh
+condor_submit/submitCondor_5M_10M
+universe=vanilla
+condor_submit/submitCondor_5M_10M
+Arguments= /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/file_list/FTFP_sim_33mBeamLine_5to10M.txt /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/out_5_to_10.root sim alpha 1
+condor_submit/submitCondor_5M_10M
+Input =
+condor_submit/submitCondor_5M_10M
+Output = /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/condor_output/condor_logs/condor_5_10.out
+condor_submit/submitCondor_5M_10M
+Error  = /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/condor_output/condor_logs/condor_5_10.err
+condor_submit/submitCondor_5M_10M
+Log    = /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/condor_output/condor_logs/condor_5_10.log
+condor_submit/submitCondor_5M_10M
+notification=never
+condor_submit/submitCondor_5M_10M
+should_transfer_files=YES
+condor_submit/submitCondor_5M_10M
+request_memory = 5.0 GB
+condor_submit/submitCondor_5M_10M
+when_to_transfer_output = ON_EXIT
+condor_submit/submitCondor_5M_10M
+queue
+condor_submit/submitCondor_5M_10M

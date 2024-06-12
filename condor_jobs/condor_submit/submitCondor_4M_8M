@@ -1,0 +1,12 @@
+executable=/home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/run_myprog.sh
+universe=vanilla
+Arguments= /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/file_list/FTFP_sim_33mBeamLine_4to8M.txt /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/out_4_to_8.root sim alpha 1
+Input =
+Output = /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/condor_output/condor_logs/condor_4_8.out
+Error  = /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/condor_output/condor_logs/condor_4_8.err
+Log    = /home/work/kalpana1/public/Hgcal_TestBeam_Analysis/CMSSW_9_3_0/src/Machinery_CLUE3D_MarcoV0_Nov2022/test_condor_jobs/condor_output/condor_logs/condor_4_8.log
+notification=never
+should_transfer_files=YES
+request_memory = 5.0 GB
+when_to_transfer_output = ON_EXIT
+queue
